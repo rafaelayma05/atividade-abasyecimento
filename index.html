@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculadora de Abastecimento</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 300px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px 20px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #218838;
+    }
+
+    #resultado {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Abastecimento</h1>
+
+  <input type="number" id="preco" placeholder="Preço do combustível">
+  <input type="number" id="valor" placeholder="Valor a abastecer">
+
+  <br>
+  <button onclick="calcularAbastecimento()">Calcular</button>
+
+  <div id="resultado"></div>
+</div>
+
+<script>
+  // Função para formatar moeda
+  const formatarMoeda = (valor) => {
+    return valor.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    });
+  };
+
+  // Função atualizarValor (arrow function)
+  const atualizarValor = () => {
+    calcularAbastecimento();
+  };
+
+  // Função principal (arrow function)
+  const calcularAbastecimento = () => {
+    const preco = parseFloat(document.getElementById('preco').value);
+    const valor = parseFloat(document.getElementById('valor').value);
+    const resultado = document.getElementById('resultado');
+
+    // Validação
+    if (isNaN(preco) || isNaN(valor)) {
+      alert("Preencha todos os campos com números válidos!");
+      return;
+    }
+
+    if (preco <= 0 || valor <= 0) {
+      alert("Os valores devem ser maiores que zero!");
+      return;
+    }
+
+    // Cálculo
+    const litros = valor / preco;
+
+    resultado.innerHTML = `
+      Você abasteceu <b>${litros.toFixed(2)} litros</b><br>
+      Total gasto: <b>${formatarMoeda(valor)}</b>
+    `;
+  };
+
+  // Evento Enter (não limpa os dados)
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      calcularAbastecimento();
+    }
+  });
+
+</script>
+
+</body>
+</html>
